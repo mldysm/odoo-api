@@ -1,0 +1,43 @@
+<odoo>
+    <data>
+        <record id="helpdesk_form_inherited" model="ir.ui.view">
+            <field name="name">helpdesk.view.form.inherited</field>
+            <field name="model">helpdesk.ticket</field>
+            <field name="inherit_id" ref="helpdesk.helpdesk_ticket_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                    <attribute name="required">0</attribute>
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="partner_name"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="helpdesk_view_tree_inherited" model="ir.ui.view">
+            <field name="name">helpdesk.view.tree.inherited</field>
+            <field name="model">helpdesk.ticket</field>
+            <field name="inherit_id" ref="helpdesk.helpdesk_tickets_view_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="replace">
+                    <field name="partner_name" />
+                </xpath>
+            </field>
+        </record>
+
+        <record id="helpdesk_view_kanban_inherited" model="ir.ui.view">
+            <field name="name">helpdesk.view.kanban.inherited</field>
+            <field name="model">helpdesk.ticket</field>
+            <field name="inherit_id" ref="helpdesk.helpdesk_ticket_view_kanban"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='commercial_partner_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='commercial_partner_id']" position="after">
+                    <field name="partner_name"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
