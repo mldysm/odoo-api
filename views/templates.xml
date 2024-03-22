@@ -1,24 +1,67 @@
 <odoo>
-    <data>
-<!--
-        <template id="listing">
-          <ul>
-            <li t-foreach="objects" t-as="object">
-              <a t-attf-href="#{ root }/objects/#{ object.id }">
-                <t t-esc="object.display_name"/>
-              </a>
-            </li>
-          </ul>
-        </template>
-        <template id="object">
-          <h1><t t-esc="object.display_name"/></h1>
-          <dl>
-            <t t-foreach="object._fields" t-as="field">
-              <dt><t t-esc="field"/></dt>
-              <dd><t t-esc="object[field]"/></dd>
+  <data>
+    <template id="portal_sale_try" name="Portal layout : Sales Change" inherit_id="portal.portal_breadcrumbs">
+      <xpath expr="//ol[hasclass('o_portal_submenu')]" position="after">
+          <a href="/my/tickets/new">
+              <button type="submit" class="btn btn-primary float-end" style="width: 100px; height: 40px;">
+                  Click me
+              </button>
+          </a>
+      </xpath>
+    </template>
+
+    <template id="portal_breadcrumbs" inherit_id="portal.portal_breadcrumbs">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'create_ticket'" class="breadcrumb-item">Create Ticket</li>           
+        </xpath>
+    </template>
+
+
+    <template id="new_ticket_form_view_portal">
+        <t t-call="portal.portal_layout">
+            <t t-call="portal.portal_table">
+                <form method="post">
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label" for="partner_name">Name</label>
+                        <div class="col-sm-10">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <input type="char" name="partner_name" id="partner_name" class="form-control" placeholder="Enter Your Name"/>
+                        </div>
+                    </div><br/>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label" for="email_cc">Email</label>
+                        <div class="col-sm-10">
+                            <input type="char" name="email_cc" id="email_cc" class="form-control" placeholder="Enter Your Email"/>
+                        </div>
+                    </div><br/>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label" for="partner_phone">Phone</label>
+                        <div class="col-sm-10">
+                            <input type="char" name="partner_phone" id="partner_phone" class="form-control" placeholder="Enter Your Phone Number"/>
+                        </div>
+                    </div><br/>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label" for="name">Subject</label>
+                        <div class="col-sm-10">
+                            <input type="char" name="name" id="name" class="form-control" placeholder="Enter Subject"/>
+                        </div>
+                    </div><br/>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label" for="description">Description</label>
+                        <div class="col-sm-10">
+                            <input type="char" name="description" id="description" class="form-control" placeholder="Enter Description"/>
+                        </div>
+                    </div><br/>
+                    <div class="form-group row">
+                        <div class="col-sm-10" style="text-align: center;">
+                            <button type="submit" class="btn btn-primary ">Submit Ticket</button>
+                        </div>
+                    </div>
+                </form>
             </t>
-          </dl>
-        </template>
--->
-    </data>
+        </t>
+        
+    </template>
+
+  </data>
 </odoo>

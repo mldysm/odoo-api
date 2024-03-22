@@ -44,3 +44,39 @@ class CustomNextjs(http.Controller):
 
             # return kw
             return request.make_response(kw, headers=headers)
+
+class NewTickets(http.Controller):
+
+    @http.route(["/my/tickets/new"], type="http", auth="user", method=["POST", "GET"], website=True)
+    def createNewTicket(self, **kw):
+        ticket_list = request.env['helpdesk.ticket'].search([])
+        if request.httprequest.method == "POST":
+            _logger.info(kw)
+
+            partner_name = kw.get('partner_name')
+            partner_phone = kw.get('partner_phone')
+            email_cc = kw.get('email_cc')
+
+            if not partner_name or not partner_phone or not email_cc:
+                raise ValidationError("Missing required fields")
+
+            partner = http.request.env['res.partner'].sudo().search([('name', '=', partner_name)], limit=1)
+
+            if not partner:
+                partner = http.request.env['res.partner'].sudo().create({
+                    'name': partner_name,
+                    'phone': partner_phone,
+                    'email': email_cc,
+                })
+
+            ticket = http.request.env['helpdesk.ticket'].sudo().create({
+                'name': kw.get('name', 'Default Ticket Name'),
+                'partner_id': partner.id,
+                'partner_phone': partner_phone,
+                'email_cc': email_cc,
+                'description': kw.get('description')
+            })
+        else:
+            _logger.info("GET METHOD..........................")
+        return request.render("custom_nextjs.new_ticket_form_view_portal", {'tickets':ticket_list, 'page_name':"create_tickets"})
+
